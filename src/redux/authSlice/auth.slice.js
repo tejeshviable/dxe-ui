@@ -3,6 +3,7 @@ import {
   authLoginThunk,
   authForgotThunk,
   authConfirmPasswordThunk,
+  authTokenForDemoThunk,
 } from "./auth.thunk";
 
 // Create async thunk for login
@@ -20,6 +21,11 @@ export const authConfirmPasswordSlice = createAsyncThunk(
   authConfirmPasswordThunk
 );
 
+export const authTokenForDemoSlice = createAsyncThunk(
+  "authTokenForDemoThunk",
+  authTokenForDemoThunk
+);
+
 const initialState = {
   token: null,
   data: null,
@@ -29,6 +35,9 @@ const initialState = {
   forgotPasswordError: null, // Track error for forgot password
   confirmPasswordStatus: "idle", // Track status for confirm password
   confirmPasswordError: null, // Track error for confirm password
+  authDemoToken: null,
+  loading: false,
+  error: null,
 };
 
 const loginSlice = createSlice({
@@ -74,7 +83,23 @@ const loginSlice = createSlice({
       .addCase(authConfirmPasswordSlice.rejected, (state, action) => {
         state.confirmPasswordStatus = "failed";
         state.confirmPasswordError = action.error.message;
-      });
+      })
+
+
+      // For Demo 
+
+      .addCase(authTokenForDemoSlice.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(authTokenForDemoSlice.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.authDemoToken = action.payload;
+      })
+      .addCase(authTokenForDemoSlice.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loading = false;
+      })
+
   },
 });
 

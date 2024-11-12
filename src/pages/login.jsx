@@ -15,7 +15,7 @@ import {
   Checkbox,
   FormControlLabel,
 } from "@mui/material";
-import { authForgotSlice, authLoginSlice } from "../redux/authSlice/auth.slice";
+import { authForgotSlice, authLoginSlice, authTokenForDemoSlice } from "../redux/authSlice/auth.slice";
 import LoginImage from "../assets/Login Illustration 1.svg";
 import Grid from "@mui/material/Grid2";
 import { jwtDecode } from "jwt-decode";
@@ -76,6 +76,11 @@ const Login = () => {
         } else {
           navigate("/dashboard");
         }
+
+        // For Demo 
+
+        dispatch(authTokenForDemoSlice())
+
       } else {
         // Handle login failure
         setErrorMessage("Login failed. Please check your credentials."); // Set error message

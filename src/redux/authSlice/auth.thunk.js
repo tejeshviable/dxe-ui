@@ -17,7 +17,7 @@ export const authLoginThunk = async (data) => {
     // Handle errors
     toast.error(
       "Login failed: " + error.response?.data?.message ||
-        "Something went wrong!"
+      "Something went wrong!"
     );
     // return rejectWithValue(error.response?.data?.message || "Something went wrong!");
   }
@@ -38,7 +38,7 @@ export const authForgotThunk = async (username) => {
     // Handle errors
     toast.error(
       "Failed to send password reset link: " +
-        (error.response?.data?.message || "Something went wrong!")
+      (error.response?.data?.message || "Something went wrong!")
     );
     // Optionally return a rejection if needed
     // return rejectWithValue(error.response?.data?.message || "Something went wrong!");
@@ -62,7 +62,27 @@ export const authConfirmPasswordThunk = async ({
   } catch (error) {
     toast.error(
       "Failed to update password: " +
-        (error.response?.data?.message || "Something went wrong!")
+      (error.response?.data?.message || "Something went wrong!")
     );
   }
 };
+
+
+// For Demo Purpose 
+
+export const authTokenForDemoThunk = async () => {
+
+  try {
+
+    const response = await axios.post(`https://34.54.18.161.nip.io/oauth2-cc/jwt?apikey=qSDUpUKAVOQUq1T2CZWJDzFWeONJyEP2GWTdGDu4AH43H21G`, {}, {
+      headers: {
+        Authorization: `Basic cVNEVXBVS0FWT1FVcTFUMkNaV0pEekZXZU9OSnlFUDJHV1RkR0R1NEFINDNIMjFHOktBa1VHemFXN3M2WTJYbW5rQUJldHFiTjdrcDVVYWt2dnBSQXppMG1GYUZqcEZTR2lXYVpHbGVSQlBHYzV1Ulg=`,
+      },
+    });
+
+    return response.data
+
+  } catch (error) {
+    console.log("error")
+  }
+}
