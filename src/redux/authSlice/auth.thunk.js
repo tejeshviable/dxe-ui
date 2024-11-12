@@ -73,8 +73,10 @@ export const authConfirmPasswordThunk = async ({
 export const authTokenForDemoThunk = async () => {
 
   try {
+    const data = new URLSearchParams();
+    data.append('grant_type', 'client_credentials');
 
-    const response = await axios.post(`https://34.54.18.161.nip.io/oauth2-cc/jwt?apikey=qSDUpUKAVOQUq1T2CZWJDzFWeONJyEP2GWTdGDu4AH43H21G`, {}, {
+    const response = await axios.post(`https://34.54.18.161.nip.io/oauth2-cc/jwt?apikey=qSDUpUKAVOQUq1T2CZWJDzFWeONJyEP2GWTdGDu4AH43H21G`, data, {
       headers: {
         Authorization: `Basic cVNEVXBVS0FWT1FVcTFUMkNaV0pEekZXZU9OSnlFUDJHV1RkR0R1NEFINDNIMjFHOktBa1VHemFXN3M2WTJYbW5rQUJldHFiTjdrcDVVYWt2dnBSQXppMG1GYUZqcEZTR2lXYVpHbGVSQlBHYzV1Ulg=`,
       },
