@@ -79,7 +79,7 @@ const options = [
   {
     title: 'Ipification',
     icon: <MovingIcon />,
-    path: "/ipification",
+    path: "/ipification1",
   },
 ];
 

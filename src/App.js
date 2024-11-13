@@ -102,6 +102,7 @@ const App = () => {
               <Route path="/viewDataRequest" element={<ViewDataRequest />} />
               <Route path="/data-permission" element={<DataPermission />} />
               <Route path="/data-request-test" element={<DataRequestTest />} />
+              <Route path="/ipification1" element={<Demopage />} />
             </Route>
             {/* Add NotFound route for any undefined paths */}
             <Route path="*" element={<NotFound />} />
