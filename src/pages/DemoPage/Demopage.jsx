@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { fetchIpiFicationGetSlice, fetchIpiFicationPostSlice, fetchIpiFicationRespPostSlice } from '../../redux/teamSlice/team.slice';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import IDALOGO from '../../assets/IDA_Logo.svg'
 
 const useStyles = makeStyles((theme) => ({
   textField: {
@@ -209,6 +210,15 @@ const Demopage = () => {
             Authenticate
           </Button>
         </Box>
+
+        <Box sx={{ display: 'flex', justifyContent: "center", mt: '5px', alignItems:'center' }}>
+          <Typography sx={{ color:'#455967',}}>Powered by{' '}</Typography>
+
+          <span>
+            <img src={IDALOGO} width={'30px'}></img>
+          </span>
+        </Box>
+
       </form>
     </Box>
   )

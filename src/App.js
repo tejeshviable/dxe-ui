@@ -89,6 +89,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Login />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/ipification" element={<Demopage />} />
             {/* Protect the MainLayout routes */}
             <Route element={<PrivateRoute element={<MainLayout />} />}>
               <Route path="/dashboard" element={<DashboardCard />} />
@@ -98,10 +99,9 @@ const App = () => {
               <Route path="/content-library" element={<ContentLibrary />} />
               <Route path="/data-request" element={<DataRequest />} />
               <Route path="/notification-preview" element={<NotificationPreview />} />
-              <Route path="/viewDataRequest" element={<ViewDataRequest/>}/>
-              <Route path="/data-permission" element={<DataPermission/>}/>
-              <Route path="/data-request-test" element={<DataRequestTest/>}/>
-              <Route path="/ipification" element={<Demopage/>}/>
+              <Route path="/viewDataRequest" element={<ViewDataRequest />} />
+              <Route path="/data-permission" element={<DataPermission />} />
+              <Route path="/data-request-test" element={<DataRequestTest />} />
             </Route>
             {/* Add NotFound route for any undefined paths */}
             <Route path="*" element={<NotFound />} />
