@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Button, Card, TextField, Typography } from '@mui/material'
+import { Box, Button, Card, CircularProgress, TextField, Typography } from '@mui/material'
 import Grid from "@mui/material/Grid2";
 import { useFormik } from 'formik';
 import * as Yup from "yup";
@@ -70,6 +70,7 @@ const Demopage = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [mobile, setMobile] = useState("");
+  const [loading, setLoading] = useState(false);
   const initialValues = {
     mobileNumber: '',
   }
@@ -86,41 +87,57 @@ const Demopage = () => {
     }
 
     const result = await dispatch(fetchIpiFicationPostSlice(payload)).unwrap();
-  
-    
+
+
     if (result) {
-      console.log("result---", result);
+      setLoading(true);
 
-      const data = {
-        redirectionUrl: result?.redirectionUrl,
-        urlData: {}
-      }
+      window.open(result?.redirectionUrl, "", "width=200,height=100");
+      
+      handleSuccess();
 
-      const successResult = await dispatch(fetchIpiFicationRespPostSlice(data)).unwrap();
+      // const successResult = await dispatch(fetchIpiFicationGetSlice(payload)).unwrap();
 
-      if (successResult) {
+      // if (successResult.status === null) {
 
-        dispatch(fetchIpiFicationGetSlice(payload))
-      }
-      else {
-        console.log("Error");
-      }
+      //   const successResult = await dispatch(fetchIpiFicationGetSlice(payload)).unwrap();
+
+      //   console.log("successResult", successResult);
+
+      // }
+      // else {
+      //   console.log("Error");
+      // }
 
     }
     else {
+      setLoading(false);
       console.log("error")
     }
 
   }
 
-  const handleStatus = async () => {
-    const payload = { mobileNumber : mobile};
-    const result = await dispatch(fetchIpiFicationGetSlice(payload)).unwrap();
-    if (result?.status == "true") {
-      toast.success("Verified"); 
-    } else {
-      toast.error("Not verified");
-     }
+
+  const handleSuccess = async () => {
+
+    const payload = { mobileNumber: mobile };
+
+    const successResult = await dispatch(fetchIpiFicationGetSlice(payload)).unwrap();
+
+    if (successResult.status === null) {
+
+      setTimeout(() => {
+        handleSuccess();
+      }, 100);
+    }
+    else {
+      setLoading(false);
+      if (successResult?.status == "true") {
+        toast.success("Verified");
+      } else {
+        toast.error("Not verified");
+      }
+    }
   }
 
   const formik = useFormik({
@@ -132,6 +149,28 @@ const Demopage = () => {
 
   return (
     <Box>
+
+      {
+        loading ?
+          <Box
+            sx={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100vw',
+              height: '100vh',
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 9999,
+            }}
+          >
+            <CircularProgress />
+          </Box>
+          : ''
+      }
+
       <form onSubmit={formik.handleSubmit}>
         <Card sx={{ mt: 5, p: 3, borderRadius: '15px', boxShadow: '0px 4px 16.5px -6px rgba(0, 0, 0, 0.25)' }}>
           <Grid container item size={{ md: 12 }} sx={{ pt: 2 }} spacing={2}>
@@ -169,20 +208,6 @@ const Demopage = () => {
             type='submit'
           >
             Fetch Data
-          </Button>
-          <Button
-            sx={{
-              borderRadius: '10px',
-              border: '1px solid #A9A9A9',
-              color: '#FFFFFF !important',
-              fontSize: '18px !important',
-              background: 'linear-gradient(180deg, #13BECF 0%, #455869 100%)',
-              padding: '8px 16px !important',
-              textTransform: 'capitalize'
-            }}
-            onClick={()=>{handleStatus()}}
-          >
-            Check Status
           </Button>
         </Box>
       </form>

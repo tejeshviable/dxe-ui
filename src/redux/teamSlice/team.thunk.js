@@ -325,10 +325,10 @@ export const fetchIpiFicationGetThunk = async (data) => {
 export const fetchIpiFicationRespPostThunk = async (data) => {
 
   try {
-    const response = await axios.get(`${data?.redirectionUrl}`, data?.urlData);
+    // const response = await axios.get(`${data?.redirectionUrl}`, data?.urlData);
     // const response = await axios.get('https://api.stage.ipification.com/auth/realms/ipification/protocol/openid-connect/auth?response_type=code&redirect_uri=https://34.54.18.161.nip.io/ipification/api/v1/ipification/callback&client_id=5b4dcd2613944553b42124ab6d481619&scope=openid%20ip:phone_verify&state=1d445106-a87f-4c26-9e4c-9304b98eab54&login_hint=999123456789');
-    console.log("resp-----",response)
-    return response.data
+    // console.log("resp-----",response)
+    // return response.data
     // window.open(data?.redirectionUrl, "_blank", "noreferrer");
 
   } catch (error) {
