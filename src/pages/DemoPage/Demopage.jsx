@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Box, Button, Card, TextField, Typography } from '@mui/material'
 import Grid from "@mui/material/Grid2";
 import { useFormik } from 'formik';
@@ -7,6 +7,7 @@ import { makeStyles } from '@mui/styles';
 import { useDispatch } from 'react-redux';
 import { fetchIpiFicationGetSlice, fetchIpiFicationPostSlice, fetchIpiFicationRespPostSlice } from '../../redux/teamSlice/team.slice';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const useStyles = makeStyles((theme) => ({
   textField: {
@@ -68,7 +69,7 @@ const Demopage = () => {
 
   const classes = useStyles();
   const dispatch = useDispatch();
-
+  const [mobile, setMobile] = useState("");
   const initialValues = {
     mobileNumber: '',
   }
@@ -79,7 +80,7 @@ const Demopage = () => {
   })
 
   const handleSubmit = async (values) => {
-
+    // setMobile(values.mobileNumber);
     const payload = {
       mobileNumber: values.mobileNumber
     }
@@ -112,6 +113,16 @@ const Demopage = () => {
 
   }
 
+  const handleStatus = async () => {
+    const payload = { mobileNumber : mobile};
+    const result = await dispatch(fetchIpiFicationGetSlice(payload)).unwrap();
+    if (result?.status == "true") {
+      toast.success("Verified"); 
+    } else {
+      toast.error("Not verified");
+     }
+  }
+
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
@@ -131,7 +142,11 @@ const Demopage = () => {
                 name="mobileNumber"
                 placeholder='Enter Mobile Number'
                 value={formik.values.mobileNumber}
-                onChange={formik.handleChange}
+                // onChange={formik.handleChange}
+                onChange={(event) => {
+                  formik.handleChange(event);
+                  setMobile(event.target.value);
+                }}
                 className={classes.textField}
                 error={formik.touched.mobileNumber && Boolean(formik.errors.mobileNumber)}
                 helperText={formik.touched.mobileNumber && formik.errors.mobileNumber}
@@ -154,6 +169,20 @@ const Demopage = () => {
             type='submit'
           >
             Fetch Data
+          </Button>
+          <Button
+            sx={{
+              borderRadius: '10px',
+              border: '1px solid #A9A9A9',
+              color: '#FFFFFF !important',
+              fontSize: '18px !important',
+              background: 'linear-gradient(180deg, #13BECF 0%, #455869 100%)',
+              padding: '8px 16px !important',
+              textTransform: 'capitalize'
+            }}
+            onClick={()=>{handleStatus()}}
+          >
+            Check Status
           </Button>
         </Box>
       </form>
