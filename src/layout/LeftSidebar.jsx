@@ -76,10 +76,11 @@ const options = [
     icon: <AnalyticsIcon />,
     path: "/data-request-test",
   },
-  // {
-  //   title: 'Performance Metrics',
-  //   icon: <MovingIcon />,
-  // },
+  {
+    title: 'Ipification',
+    icon: <MovingIcon />,
+    path: "/ipification",
+  },
 ];
 
 const settingsOption = {

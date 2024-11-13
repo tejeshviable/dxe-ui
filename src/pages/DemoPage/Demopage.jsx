@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-
+let openedWindow;
 
 const Demopage = () => {
 
@@ -92,26 +92,19 @@ const Demopage = () => {
     if (result) {
       setLoading(true);
 
-      window.open(result?.redirectionUrl, "", "width=200,height=100");
+      openedWindow = window.open(result?.redirectionUrl, "", "width=200,height=100");
       
       handleSuccess();
-
-      // const successResult = await dispatch(fetchIpiFicationGetSlice(payload)).unwrap();
-
-      // if (successResult.status === null) {
-
-      //   const successResult = await dispatch(fetchIpiFicationGetSlice(payload)).unwrap();
-
-      //   console.log("successResult", successResult);
-
-      // }
-      // else {
-      //   console.log("Error");
-      // }
 
     }
     else {
       setLoading(false);
+
+      if (openedWindow && !openedWindow.closed) {
+        openedWindow.close();
+        openedWindow = null;
+      }
+
       console.log("error")
     }
 
@@ -132,6 +125,12 @@ const Demopage = () => {
     }
     else {
       setLoading(false);
+
+      if (openedWindow && !openedWindow.closed) {
+        openedWindow.close();
+        openedWindow = null;
+      }
+
       if (successResult?.status == "true") {
         toast.success("Verified");
       } else {
@@ -207,7 +206,7 @@ const Demopage = () => {
             }}
             type='submit'
           >
-            Fetch Data
+            Authenticate
           </Button>
         </Box>
       </form>
