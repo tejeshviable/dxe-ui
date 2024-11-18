@@ -86,9 +86,14 @@ const Demopage = () => {
   const openRedirectWindow = (redirectUrl) => {
     console.log(redirectUrl);
     console.log("rxId in openRedirectWindow updated : ", rxId);
+    // Parse the URL
+    const parsedUrl = new URL(redirectUrl);
+
+    // Extract the 'state' parameter
+    const state = parsedUrl.searchParams.get("state");
     setTimeout(() => {
       openedWindow = window.open(redirectUrl, "", "width=200,height=100");
-      handleSuccess();
+      handleSuccess(state);
       }, 10);
   }
 
@@ -123,16 +128,16 @@ const Demopage = () => {
   }
 
 
-  const handleSuccess = async () => {
-    console.log("rxId in handleSuccess : ", rxId);
-    const payload = { mobileNumber: mobile, rxId: rxId };
+  const handleSuccess = async (state) => {
+    console.log("rxId in handleSuccess : ", state);
+    const payload = { mobileNumber: mobile, requestId: state };
     console.log("payload in handleSuccess : ", payload);
     const successResult = await dispatch(fetchIpiFicationGetSlice(payload)).unwrap();
 
     if (successResult.status === null) {
 
       setTimeout(() => {
-        handleSuccess();
+        handleSuccess(state);
       }, 100);
     }
     else {
