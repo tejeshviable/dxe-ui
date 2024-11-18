@@ -93,6 +93,7 @@ const Demopage = () => {
 
 
     if (result) {
+      console.log("result : ", result);
       setRequestId(result?.requestId);
       setLoading(true);
 
