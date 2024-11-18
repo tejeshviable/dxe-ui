@@ -85,7 +85,7 @@ const Demopage = () => {
 
   const openRedirectWindow = (redirectUrl) => {
     console.log(redirectUrl);
-    console.log("rxId in openRedirectWindow : ", rxId);
+    console.log("rxId in openRedirectWindow updated : ", rxId);
     setTimeout(() => {
       openedWindow = window.open(redirectUrl, "", "width=200,height=100");
       handleSuccess();
@@ -103,8 +103,8 @@ const Demopage = () => {
 
     if (result) {
       console.log("result : ", result);
-      console.log("rxId : ", result?.rxId);
-      setRxId(result?.rxId);
+      console.log("rxId : ", result?.requestId);
+      setRxId(result?.requestId);
       setLoading(true);
       var redirectUrl = result?.redirectionUrl;
       openRedirectWindow(redirectUrl);
