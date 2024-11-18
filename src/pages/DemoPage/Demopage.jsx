@@ -118,9 +118,9 @@ const Demopage = () => {
 
 
   const handleSuccess = async () => {
-
+    console.log("requestId in handleSuccess : ", requestId);
     const payload = { mobileNumber: mobile, requestId: requestId };
-
+    console.log("payload in handleSuccess : ", payload);
     const successResult = await dispatch(fetchIpiFicationGetSlice(payload)).unwrap();
 
     if (successResult.status === null) {
