@@ -84,8 +84,11 @@ const Demopage = () => {
   })
 
   const openRedirectWindow = (redirectUrl) => {
+    console.log(redirectUrl);
+    console.log("requestId in openRedirectWindow : ", requestId);
     setTimeout(() => {
       openedWindow = window.open(redirectUrl, "", "width=200,height=100");
+      handleSuccess();
       }, 10);
   }
 
@@ -105,8 +108,6 @@ const Demopage = () => {
       setLoading(true);
       var redirectUrl = result?.redirectionUrl;
       openRedirectWindow(redirectUrl);
-      handleSuccess();
-
     }
     else {
       setLoading(false);
