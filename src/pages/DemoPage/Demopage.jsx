@@ -83,6 +83,12 @@ const Demopage = () => {
       .required("Mobile number is required"),
   })
 
+  const openRedirectWindow = (redirectUrl) => {
+    setTimeout(() => {
+      openedWindow = window.open(redirectUrl, "", "width=200,height=100");
+      }, 10);
+  }
+
   const handleSubmit = async (values) => {
     // setMobile(values.mobileNumber);
     const payload = {
@@ -97,9 +103,8 @@ const Demopage = () => {
       console.log("requestId : ", result?.requestId);
       setRequestId(result?.requestId);
       setLoading(true);
-      setTimeout(() => {
-      openedWindow = window.open(result?.redirectionUrl, "", "width=200,height=100");
-      }, 10);
+      var redirectUrl = result?.redirectionUrl;
+      openRedirectWindow(redirectUrl);
       handleSuccess();
 
     }
