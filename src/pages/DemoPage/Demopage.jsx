@@ -71,6 +71,8 @@ const Demopage = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [mobile, setMobile] = useState("");
+  const [requestId, setRequestId] = useState("");
+  
   const [loading, setLoading] = useState(false);
   const initialValues = {
     mobileNumber: '',
@@ -91,6 +93,7 @@ const Demopage = () => {
 
 
     if (result) {
+      setRequestId(result?.requestId);
       setLoading(true);
 
       openedWindow = window.open(result?.redirectionUrl, "", "width=200,height=100");
@@ -114,7 +117,7 @@ const Demopage = () => {
 
   const handleSuccess = async () => {
 
-    const payload = { mobileNumber: mobile };
+    const payload = { mobileNumber: mobile, requestId: requestId };
 
     const successResult = await dispatch(fetchIpiFicationGetSlice(payload)).unwrap();
 

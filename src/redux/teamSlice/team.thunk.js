@@ -312,7 +312,7 @@ export const fetchIpiFicationPostThunk = async (data) => {
 export const fetchIpiFicationGetThunk = async (data) => {
   console.log("dataaa---", data);
   try {
-    const response = await axios.get(`http://3.238.201.69:7035/api/v1/ipification/status/${data.mobileNumber}`);
+    const response = await axios.get(`http://3.238.201.69:7035/api/v1/ipification/status/${data.mobileNumber}/${data.requestId}`);
  
     return response.data
  
