@@ -95,14 +95,11 @@ const Demopage = () => {
     if (result) {
       console.log("result : ", result);
       console.log("requestId : ", result?.requestId);
-      setTimeout(() => {
-        setRequestId(result?.requestId);
-      }, 100);
-      
+      setRequestId(result?.requestId);
       setLoading(true);
-
+      setTimeout(() => {
       openedWindow = window.open(result?.redirectionUrl, "", "width=200,height=100");
-      
+      }, 10);
       handleSuccess();
 
     }
