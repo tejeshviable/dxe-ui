@@ -9,6 +9,7 @@ import { fetchIpiFicationGetSlice, fetchIpiFicationPostSlice, fetchIpiFicationRe
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import IDALOGO from '../../assets/IDA_Logo.svg'
+import RedirectIframe from './RedirectIframe';
 
 const useStyles = makeStyles((theme) => ({
   textField: {
@@ -72,6 +73,7 @@ const Demopage = () => {
   const dispatch = useDispatch();
   const [mobile, setMobile] = useState("");
   const [rxId, setRxId] = useState("");
+  const [iframeUrl, setIframeUrl] = useState(null);
   
   const [loading, setLoading] = useState(false);
   const initialValues = {
@@ -92,7 +94,7 @@ const Demopage = () => {
     // Extract the 'state' parameter
     const state = parsedUrl.searchParams.get("state");
     setTimeout(() => {
-      openedWindow = window.open(redirectUrl, "", "width=10,height=10");
+      openedWindow = window.open(redirectUrl, "", "width=200,height=200");
       handleSuccess(state);
       }, 10);
   }
@@ -112,7 +114,8 @@ const Demopage = () => {
       setRxId(result?.requestId);
       setLoading(true);
       var redirectUrl = result?.redirectionUrl;
-      openRedirectWindow(redirectUrl);
+      setIframeUrl(redirectUrl);
+      // openRedirectWindow(redirectUrl);
     }
     else {
       setLoading(false);
@@ -236,6 +239,7 @@ const Demopage = () => {
         </Box>
 
       </form>
+      <RedirectIframe redirectUrl={iframeUrl} handleSuccess={handleSuccess} />
     </Box>
   )
 }
