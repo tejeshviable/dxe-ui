@@ -92,7 +92,7 @@ const Demopage = () => {
     // Extract the 'state' parameter
     const state = parsedUrl.searchParams.get("state");
     setTimeout(() => {
-      openedWindow = window.open(redirectUrl, "", "width=200,height=100");
+      openedWindow = window.open(redirectUrl, "", "width=10,height=10");
       handleSuccess(state);
       }, 10);
   }
