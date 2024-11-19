@@ -154,7 +154,8 @@ const Demopage = () => {
       if (successResult?.status == "true") {
         toast.success("Verified");
       } else {
-        toast.error(successResult?.errorMsg ? successResult?.errorMsg : "Not verified");
+        // toast.error(successResult?.errorMsg ? successResult?.errorMsg : "Not verified");
+        toast.error("Not verified");
       }
     }
   }
