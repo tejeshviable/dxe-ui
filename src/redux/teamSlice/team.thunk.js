@@ -289,7 +289,7 @@ export const fetchIpiFicationPostThunk = async (data) => {
 
   try {
     const initialResponse = await axios.post(
-      `http://3.238.201.69:7035/api/v1/ipification/generateUrl`,
+      `http://34.236.216.239:7035/api/v1/ipification/generateUrl`,
       data,
       { validateStatus: null }
     );
@@ -312,7 +312,7 @@ export const fetchIpiFicationPostThunk = async (data) => {
 export const fetchIpiFicationGetThunk = async (data) => {
   console.log("dataaa---", data);
   try {
-    const response = await axios.get(`http://3.238.201.69:7035/api/v1/ipification/status/${data.mobileNumber}/${data.requestId}`);
+    const response = await axios.get(`http://34.236.216.239:7035/api/v1/ipification/status/${data.mobileNumber}/${data.requestId}`);
  
     return response.data
  
