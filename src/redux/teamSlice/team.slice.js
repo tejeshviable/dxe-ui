@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchDataPermissionThunk, fetchDataPermissonUnionThunk, fetchDataRequestDataThunk, fetchIpiFicationGetThunk, fetchIpiFicationPostThunk, fetchIpiFicationRespPostThunk, fetchNotificationPreviewThunk, fetchPastRequestThunk, fetchTeamMemberListThunk, fetchTeamsDetailsThunk, NotificationApproveThunk } from "./team.thunk";
+import { fetchDataPermissionThunk, fetchDataPermissonUnionThunk, fetchDataRequestDataThunk, fetchIpiFicationAuthPostThunk, fetchIpiFicationGetThunk, fetchIpiFicationPostThunk, fetchIpiFicationRespPostThunk, fetchNotificationPreviewThunk, fetchPastRequestThunk, fetchTeamMemberListThunk, fetchTeamsDetailsThunk, NotificationApproveThunk, VerifysmsOtpThunk, VerifyWhatsAppOtpThunk } from "./team.thunk";
 
 export const fetchTeamsDetailsSlice = createAsyncThunk(
   "fetchTeamsDetails",
@@ -55,6 +55,21 @@ export const fetchIpiFicationRespPostSlice = createAsyncThunk(
   fetchIpiFicationRespPostThunk
 )
 
+export const fetchIpiFicationAuthPostSlice = createAsyncThunk(
+  "fetchIpiFicationAuthPostThunk",
+  fetchIpiFicationAuthPostThunk
+)
+
+export const VerifysmsOtpSmsSlice = createAsyncThunk(
+  "VerifysmsOtpThunk",
+  VerifysmsOtpThunk
+)
+
+export const VerifyWhatsAppOtpSlice = createAsyncThunk(
+  "VerifyWhatsAppOtpThunk",
+  VerifyWhatsAppOtpThunk
+)
+
 const initialState = {
   teams: [],
   campaigns: [],
@@ -65,6 +80,9 @@ const initialState = {
   dataPermissionData:'',
   dataPermissionUnionData:'',
   pastRequestData:[],
+  ipificationAuthPostSlice:{},
+  smsotp:'',
+  whatsAppOtp:'',
   demoPost:'',
   demoGet:'',
   demorespData:'',
@@ -240,6 +258,50 @@ const teamsSlice = createSlice({
         state.error = action.error.message;
       })
 
+      // Auth
+
+      .addCase(fetchIpiFicationAuthPostSlice.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchIpiFicationAuthPostSlice.fulfilled, (state, action) => {
+        state.ipificationAuthPostSlice = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchIpiFicationAuthPostSlice.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+
+      // SMS Otp
+
+      .addCase(VerifysmsOtpSmsSlice.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(VerifysmsOtpSmsSlice.fulfilled, (state, action) => {
+        state.smsotp = action.payload;
+        state.loading = false;
+      })
+      .addCase(VerifysmsOtpSmsSlice.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+
+      // WhatsApp Otp
+
+      .addCase(VerifyWhatsAppOtpSlice.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(VerifyWhatsAppOtpSlice.fulfilled, (state, action) => {
+        state.whatsAppOtp = action.payload;
+        state.loading = false;
+      })
+      .addCase(VerifyWhatsAppOtpSlice.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
   },
 });
 

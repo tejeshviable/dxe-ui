@@ -293,7 +293,7 @@ export const fetchIpiFicationPostThunk = async (data) => {
       data,
       { validateStatus: null }
     );
-  
+
     // if (initialResponse.status === 302 && initialResponse.headers.location) {
     //   const redirectResponse = await axios.get(initialResponse.headers.location);
     //   return redirectResponse.data;
@@ -312,11 +312,11 @@ export const fetchIpiFicationPostThunk = async (data) => {
 export const fetchIpiFicationGetThunk = async (data) => {
   console.log("dataaa---", data);
   try {
-    const response = await axios.get(`http://18.214.146.236:7035/api/v1/ipification/status/${data.mobileNumber}/${data.requestId}`);
- 
+    const response = await axios.get(`http://18.214.146.236:7040/api/v1/id-auth/status/${data.requestId}`);
+
     return response.data
- 
- 
+
+
   } catch (error) {
     return toast.error(error?.response?.data?.error);
   }
@@ -332,6 +332,61 @@ export const fetchIpiFicationRespPostThunk = async (data) => {
     // window.open(data?.redirectionUrl, "_blank", "noreferrer");
 
   } catch (error) {
+    return toast.error(error?.response?.data?.error);
+  }
+}
+
+
+export const fetchIpiFicationAuthPostThunk = async (data) => {
+
+  console.log("Data---", data)
+
+  try {
+    const initialResponse = await axios.post(
+      `http://18.214.146.236:7040/api/v1/id-auth/authenticate?clientId=5b4dcd2613944553b42124ab6d481619`, data , 
+      {
+      validateStatus: null
+    }
+    );
+
+    // if (initialResponse.status === 302 && initialResponse.headers.location) {
+    //   const redirectResponse = await axios.get(initialResponse.headers.location);
+    //   return redirectResponse.data;
+    // }
+
+    console.log("Redirecting to:", initialResponse.data);
+
+    return initialResponse.data;
+
+
+  } catch (error) {
+    return toast.error(error?.response?.data?.error);
+  }
+}
+
+export const VerifysmsOtpThunk = async (data) => {
+
+  try {
+    const response = await axios.post(`http://18.214.146.236:7040/api/v1/id-auth/sms/verifyOtp?txnId=${data.txnId}`, data, {})
+
+    return response.data
+
+  } catch (error) {
+
+    return toast.error(error?.response?.data?.error);
+  }
+}
+
+
+export const VerifyWhatsAppOtpThunk = async (data) => {
+
+  try {
+    const response = await axios.post(`http://18.214.146.236:7040/api/v1/id-auth/otp/verify-whatsapp-otp?txnId=${data.txnId}`, data, {})
+
+    return response.data
+
+  } catch (error) {
+
     return toast.error(error?.response?.data?.error);
   }
 }
