@@ -84,7 +84,7 @@ const Demopage = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [mobile, setMobile] = useState("");
-  const [rxId, setRxId] = useState("");
+  const [txnId, setTxnId] = useState("");
   const [iframeUrl, setIframeUrl] = useState(null);
   const [AttriuteInputValue, setAttriuteInputValue] = useState('');
   const [otpPopup, setOtpPopup] = useState(false);
@@ -123,7 +123,7 @@ const Demopage = () => {
 
   const openRedirectWindow = (redirectUrl) => {
     console.log(redirectUrl);
-    console.log("rxId in openRedirectWindow updated : ", rxId);
+    console.log("txnId in openRedirectWindow updated : ", txnId);
     // Parse the URL
     const parsedUrl = new URL(redirectUrl);
 
@@ -165,8 +165,8 @@ const Demopage = () => {
 
     if (result) {
       console.log("result : ", result);
-      console.log("rxId : ", result?.requestId);
-      setRxId(result?.requestId);
+      console.log("txnId : ", result?.txnId);
+      setTxnId(result?.txnId);
       setLoading(true);
       var redirectUrl = result?.redirectionUrl;
       setIframeUrl(redirectUrl);
@@ -187,7 +187,7 @@ const Demopage = () => {
 
 
   const handleSuccess = async (state) => {
-    console.log("rxId in handleSuccess : ", state);
+    console.log("txnId in handleSuccess : ", state);
     const payload = { mobileNumber: mobile, requestId: state };
     console.log("payload in handleSuccess : ", payload);
     const successResult = await dispatch(fetchIpiFicationGetSlice(payload)).unwrap();
