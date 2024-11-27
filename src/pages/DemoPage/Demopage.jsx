@@ -230,7 +230,7 @@ const Demopage = () => {
   const handleComplete = async (otp) => {
 
     const payload = {
-      otp: otp,
+      otp: encryption(otp),
       txnId: otpInfo?.txnId
     }
 
