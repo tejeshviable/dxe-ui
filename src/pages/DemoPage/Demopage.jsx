@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import IDALOGO from '../../assets/IDA_Logo.svg'
 import RedirectIframe from './RedirectIframe';
 import OTPInput from './Component/OTPInput';
+import { encryption } from '../../helper/encryption';
 
 const useStyles = makeStyles((theme) => ({
   textField: {
@@ -139,20 +140,20 @@ const Demopage = () => {
 
     const workflow = [{
       channel: "silent_auth",
-      mobileNumberTo: values.mobileNumber
+      mobileNumberTo: encryption(values.mobileNumber)
     },]
 
     if (values.fallbackChannel.includes("sms")) {
       workflow.push({
         channel: "sms",
-        mobileNumberTo: values.smsMobileNumber
+        mobileNumberTo: encryption(values.smsMobileNumber)
       })
     }
 
     if (values.fallbackChannel.includes("whatsApp")) {
       workflow.push({
         channel: 'whatsApp',
-        mobileNumberTo: values.whatsAppMobileNumber
+        mobileNumberTo: encryption(values.whatsAppMobileNumber)
       })
     }
 
@@ -188,7 +189,7 @@ const Demopage = () => {
 
   const handleSuccess = async (state) => {
     console.log("txnId in handleSuccess : ", state);
-    const payload = { mobileNumber: mobile, requestId: state };
+    const payload = { mobileNumber: encryption(mobile), requestId: state };
     console.log("payload in handleSuccess : ", payload);
     const successResult = await dispatch(fetchIpiFicationGetSlice(payload)).unwrap();
     console.log("Tejeshvi : " + successResult.status);
