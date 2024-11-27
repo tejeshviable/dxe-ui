@@ -201,12 +201,12 @@ const Demopage = () => {
     } else if (successResult.status === 'VERIFICATION_PENDING') {
       if (successResult.channel === 'sms') {
         setLoading(false);
-        toast.success("Call sms verify otp");
+        // toast.success("Call sms verify otp");
         setotpInfo(successResult);
         setOtpPopup(true);
       } else if (successResult.channel === 'whatsApp') {
         setLoading(false);
-        toast.success("Call whatsapp verify otp");
+        // toast.success("Call whatsapp verify otp");
         setotpInfo(successResult);
         setOtpPopup(true);
       }
@@ -229,14 +229,20 @@ const Demopage = () => {
 
   const handleComplete = async (otp) => {
 
-    const payload = {
+    const smsPayload = {
       otp: encryption(otp),
+      txnId: otpInfo?.txnId
+    }
+
+    const whatsAppPayload = {
+      otp: encryption(otp),
+      mobileNumber: encryption(formik.values.whatsAppMobileNumber),
       txnId: otpInfo?.txnId
     }
 
     if (otpInfo?.channel === 'sms') {
 
-      const smsResult = await dispatch(VerifysmsOtpSmsSlice(payload)).unwrap();
+      const smsResult = await dispatch(VerifysmsOtpSmsSlice(smsPayload)).unwrap();
 
       if (smsResult) {
         toast.success("Verified");
@@ -247,10 +253,25 @@ const Demopage = () => {
     }
     else if (otpInfo?.channel === 'whatsApp') {
 
-      const whatsAppResult = await dispatch(VerifyWhatsAppOtpSlice(payload)).unwrap();
+      const whatsAppResult = await dispatch(VerifyWhatsAppOtpSlice(whatsAppPayload)).unwrap();
 
       if (whatsAppResult) {
-        toast.success("Verified");
+        // toast.success("Verified");
+
+        if (whatsAppResult.status === 'VERIFICATION_PENDING') {
+          toast.error(whatsAppResult.message);
+        }
+        else if (whatsAppResult.status === 'false') {
+          toast.error(whatsAppResult.message);
+          setOtpPopup(false);
+          formik.resetForm();
+        }
+        else if (whatsAppResult.status === 'true') {
+          toast.success(whatsAppResult.message);
+          setOtpPopup(false);
+          formik.resetForm();
+        }
+
       }
       else {
         toast.error("Not verified. We will send sms when ready");
@@ -292,132 +313,133 @@ const Demopage = () => {
           : ''
       }
 
-      <form onSubmit={formik.handleSubmit}>
-        <Card sx={{ mt: 5, p: 3, borderRadius: '15px', boxShadow: '0px 4px 16.5px -6px rgba(0, 0, 0, 0.25)' }}>
-          <Grid container item size={{ md: 12 }} sx={{ pt: 2 }} spacing={2}>
-            <Grid size={{ md: 4 }}>
-              <Typography className={classes.label}>Phone Number</Typography>
+      {
+        !otpPopup ?
+          <>
+            <form onSubmit={formik.handleSubmit}>
+              <Card sx={{ mt: 5, p: 3, borderRadius: '15px', boxShadow: '0px 4px 16.5px -6px rgba(0, 0, 0, 0.25)' }}>
+                <Grid container item size={{ md: 12 }} sx={{ pt: 2 }} spacing={2}>
+                  <Grid size={{ md: 4 }}>
+                    <Typography className={classes.label}>Phone Number</Typography>
 
-              <TextField
-                name="mobileNumber"
-                placeholder='Enter Mobile Number'
-                value={formik.values.mobileNumber}
-                // onChange={formik.handleChange}
-                onChange={(event) => {
-                  formik.handleChange(event);
-                  setMobile(event.target.value);
-                }}
-                className={classes.textField}
-                error={formik.touched.mobileNumber && Boolean(formik.errors.mobileNumber)}
-                helperText={formik.touched.mobileNumber && formik.errors.mobileNumber}
-              />
-            </Grid>
-            <Grid size={{ md: 4 }}>
-              <Typography className={classes.label}>Fallback</Typography>
-              <Autocomplete
-                name="fallbackChannel"
-                multiple
-                options={channelFallbackList}
-                getOptionLabel={(option) => (option?.label ? option.label : "")}
-                value={
-                  channelFallbackList.filter((option) =>
-                    formik.values.fallbackChannel.includes(option.value) // Match by value
-                  ) || []
-                }
-                onChange={(event, value) => {
-                  // Set the selected values as an array of `value` strings
-                  formik.setFieldValue(
-                    "fallbackChannel",
-                    value.map((v) => v.value) // Extract the `value` property
-                  );
-                }}
-                onBlur={formik.handleBlur}
-                inputValue={AttriuteInputValue}
-                onInputChange={(event, newInputValue) => {
-                  setAttriuteInputValue(newInputValue);
-                }}
-                className={classes.selectField}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    placeholder="Select Fallback"
-                    className={classes.textField}
-                  />
-                )}
-              />
-            </Grid>
-            {formik.values.fallbackChannel.includes('sms') && (
-              <Grid size={{ md: 4 }}>
-                <Typography className={classes.label}>SMS Mobile Number</Typography>
-                <TextField
-                  name="smsMobileNumber"
-                  placeholder="Enter SMS Mobile Number"
-                  value={formik.values.smsMobileNumber}
-                  onChange={formik.handleChange}
-                  className={classes.textField}
-                  error={formik.touched.smsMobileNumber && Boolean(formik.errors.smsMobileNumber)}
-                  helperText={formik.touched.smsMobileNumber && formik.errors.smsMobileNumber}
-                />
-              </Grid>
-            )}
-            {formik.values.fallbackChannel.includes('whatsApp') && (
-              <Grid size={{ md: 4 }}>
-                <Typography className={classes.label}>WhatsApp Mobile Number</Typography>
-                <TextField
-                  name="whatsAppMobileNumber"
-                  placeholder="Enter WhatsApp Mobile Number"
-                  value={formik.values.whatsAppMobileNumber}
-                  onChange={formik.handleChange}
-                  className={classes.textField}
-                  error={formik.touched.whatsAppMobileNumber && Boolean(formik.errors.whatsAppMobileNumber)}
-                  helperText={formik.touched.whatsAppMobileNumber && formik.errors.whatsAppMobileNumber}
-                />
-              </Grid>
-            )}
-          </Grid>
-        </Card>
+                    <TextField
+                      name="mobileNumber"
+                      placeholder='Enter Mobile Number'
+                      value={formik.values.mobileNumber}
+                      // onChange={formik.handleChange}
+                      onChange={(event) => {
+                        formik.handleChange(event);
+                        setMobile(event.target.value);
+                      }}
+                      className={classes.textField}
+                      error={formik.touched.mobileNumber && Boolean(formik.errors.mobileNumber)}
+                      helperText={formik.touched.mobileNumber && formik.errors.mobileNumber}
+                    />
+                  </Grid>
+                  <Grid size={{ md: 4 }}>
+                    <Typography className={classes.label}>Fallback</Typography>
+                    <Autocomplete
+                      name="fallbackChannel"
+                      multiple
+                      options={channelFallbackList}
+                      getOptionLabel={(option) => (option?.label ? option.label : "")}
+                      value={
+                        channelFallbackList.filter((option) =>
+                          formik.values.fallbackChannel.includes(option.value) // Match by value
+                        ) || []
+                      }
+                      onChange={(event, value) => {
+                        // Set the selected values as an array of `value` strings
+                        formik.setFieldValue(
+                          "fallbackChannel",
+                          value.map((v) => v.value) // Extract the `value` property
+                        );
+                      }}
+                      onBlur={formik.handleBlur}
+                      inputValue={AttriuteInputValue}
+                      onInputChange={(event, newInputValue) => {
+                        setAttriuteInputValue(newInputValue);
+                      }}
+                      className={classes.selectField}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          placeholder="Select Fallback"
+                          className={classes.textField}
+                        />
+                      )}
+                    />
+                  </Grid>
+                  {formik.values.fallbackChannel.includes('sms') && (
+                    <Grid size={{ md: 4 }}>
+                      <Typography className={classes.label}>SMS Mobile Number</Typography>
+                      <TextField
+                        name="smsMobileNumber"
+                        placeholder="Enter SMS Mobile Number"
+                        value={formik.values.smsMobileNumber}
+                        onChange={formik.handleChange}
+                        className={classes.textField}
+                        error={formik.touched.smsMobileNumber && Boolean(formik.errors.smsMobileNumber)}
+                        helperText={formik.touched.smsMobileNumber && formik.errors.smsMobileNumber}
+                      />
+                    </Grid>
+                  )}
+                  {formik.values.fallbackChannel.includes('whatsApp') && (
+                    <Grid size={{ md: 4 }}>
+                      <Typography className={classes.label}>WhatsApp Mobile Number</Typography>
+                      <TextField
+                        name="whatsAppMobileNumber"
+                        placeholder="Enter WhatsApp Mobile Number"
+                        value={formik.values.whatsAppMobileNumber}
+                        onChange={formik.handleChange}
+                        className={classes.textField}
+                        error={formik.touched.whatsAppMobileNumber && Boolean(formik.errors.whatsAppMobileNumber)}
+                        helperText={formik.touched.whatsAppMobileNumber && formik.errors.whatsAppMobileNumber}
+                      />
+                    </Grid>
+                  )}
+                </Grid>
+              </Card>
 
-        <Box sx={{ display: 'flex', justifyContent: "center", mt: '16px' }}>
-          <Button
-            sx={{
-              borderRadius: '10px',
-              border: '1px solid #A9A9A9',
-              color: '#FFFFFF !important',
-              fontSize: '18px !important',
-              background: 'linear-gradient(180deg, #13BECF 0%, #455869 100%)',
-              padding: '8px 16px !important',
-              textTransform: 'capitalize'
-            }}
-            type='submit'
-          >
-            Authenticate
-          </Button>
-        </Box>
+              <Box sx={{ display: 'flex', justifyContent: "center", mt: '16px' }}>
+                <Button
+                  sx={{
+                    borderRadius: '10px',
+                    border: '1px solid #A9A9A9',
+                    color: '#FFFFFF !important',
+                    fontSize: '18px !important',
+                    background: 'linear-gradient(180deg, #13BECF 0%, #455869 100%)',
+                    padding: '8px 16px !important',
+                    textTransform: 'capitalize'
+                  }}
+                  type='submit'
+                >
+                  Authenticate
+                </Button>
+              </Box>
 
-        <Box sx={{ display: 'flex', justifyContent: "center", mt: '5px', alignItems: 'center' }}>
-          <Typography sx={{ color: '#455967', }}>Powered by{' '}</Typography>
+              <Box sx={{ display: 'flex', justifyContent: "center", mt: '5px', alignItems: 'center' }}>
+                <Typography sx={{ color: '#455967', }}>Powered by{' '}</Typography>
 
-          <span>
-            <img src={IDALOGO} width={'30px'}></img>
-          </span>
-        </Box>
-
-        {
-          otpPopup ? <>
-
+                <span>
+                  <img src={IDALOGO} width={'30px'}></img>
+                </span>
+              </Box>
+            </form>
+          </> :
+          <>
             <Box sx={{ margin: 'auto' }}>
               <OTPInput length={6} onComplete={handleComplete} otpPopup={otpPopup} setOtpPopup={setOtpPopup} otpInfo={otpInfo} />
             </Box>
-          </> : <></>
-        }
-
-      </form>
+          </>
+      }
       <RedirectIframe redirectUrl={iframeUrl} handleSuccess={handleSuccess} />
     </Box>
   )
 }
 
 export default Demopage
+
 
 
 
