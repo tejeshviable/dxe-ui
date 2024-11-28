@@ -245,7 +245,22 @@ const Demopage = () => {
       const smsResult = await dispatch(VerifysmsOtpSmsSlice(smsPayload)).unwrap();
 
       if (smsResult) {
-        toast.success("Verified");
+        // toast.success("Verified");
+
+        if (smsResult.status === 'VERIFICATION_PENDING') {
+          toast.error(smsResult.message);
+        }
+        else if (smsResult.status === 'false') {
+          toast.error(smsResult.message);
+          setOtpPopup(false);
+          formik.resetForm();
+        }
+        else if (smsResult.status === 'true') {
+          toast.success(smsResult.message);
+          setOtpPopup(false);
+          formik.resetForm();
+        }
+
       }
       else {
         toast.error("Not verified. We will send sms when ready");
