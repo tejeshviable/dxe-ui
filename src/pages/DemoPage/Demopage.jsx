@@ -198,7 +198,7 @@ const Demopage = () => {
       setTimeout(() => {
         handleSuccess(state);
       }, 100);
-    } else if (successResult.status === 'VERIFICATION_PENDING') {
+    } else if (successResult.status === 'OTP_SENT') {
       if (successResult.channel === 'sms') {
         setLoading(false);
         // toast.success("Call sms verify otp");
@@ -247,7 +247,7 @@ const Demopage = () => {
       if (smsResult) {
         // toast.success("Verified");
 
-        if (smsResult.status === 'VERIFICATION_PENDING') {
+        if (smsResult.status === 'OTP_SENT') {
           toast.error(smsResult.message);
         }
         else if (smsResult.status === 'false') {
@@ -273,7 +273,7 @@ const Demopage = () => {
       if (whatsAppResult) {
         // toast.success("Verified");
 
-        if (whatsAppResult.status === 'VERIFICATION_PENDING') {
+        if (whatsAppResult.status === 'OTP_SENT') {
           toast.error(whatsAppResult.message);
         }
         else if (whatsAppResult.status === 'false') {
