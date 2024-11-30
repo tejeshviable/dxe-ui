@@ -364,10 +364,10 @@ export const fetchIpiFicationAuthPostThunk = async (data) => {
   }
 }
 
-export const VerifysmsOtpThunk = async (data) => {
+export const VerifyOtpThunk = async (data) => {
 
   try {
-    const response = await axios.post(`http://18.214.146.236:7040/api/v1/id-auth/sms/verifyOtp?txnId=${data.txnId}`, data, {})
+    const response = await axios.post(`http://18.214.146.236:7040/api/v1/id-auth/verifyOtp?txnId=${data.txnId}`, data, {})
 
     return response.data
 
@@ -377,12 +377,13 @@ export const VerifysmsOtpThunk = async (data) => {
   }
 }
 
-
-export const VerifyWhatsAppOtpThunk = async (data) => {
+export const resendOtpThunk = async (data) => {
 
   try {
-    const response = await axios.post(`http://18.214.146.236:7040/api/v1/id-auth/otp/verify-whatsapp-otp?txnId=${data.txnId}`, data, {})
-
+    const response = await axios.post(
+      `http://18.214.146.236:7040/api/v1/id-auth/sms/resendOtp?txnId=${data.txnId}`, 
+      data
+    );
     return response.data
 
   } catch (error) {

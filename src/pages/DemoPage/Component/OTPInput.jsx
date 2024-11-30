@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { Box, Button, Card, CardContent, TextField, Typography, Alert } from "@mui/material";
 
-const OTPInput = ({ length = 6, onComplete, otpPopup, setOtpPopup, otpInfo }) => {
+const OTPInput = ({ length = 6, onComplete, otpPopup, setOtpPopup, otpInfo, onResend }) => {
     const [otp, setOtp] = useState(new Array(length).fill(""));
     const [error, setError] = useState(""); // To store error messages
     const inputRefs = useRef([]);
@@ -43,6 +43,7 @@ const OTPInput = ({ length = 6, onComplete, otpPopup, setOtpPopup, otpInfo }) =>
 
     };
 
+
     return (
         <Card
             sx={{
@@ -82,11 +83,27 @@ const OTPInput = ({ length = 6, onComplete, otpPopup, setOtpPopup, otpInfo }) =>
                         {error}
                     </Alert>
                 )}
-                <Box sx={{ display: "flex", justifyContent: "center", marginTop: "24px" }}>
+                <Box sx={{ display: "flex", justifyContent: "center", marginTop: "24px", gap: '12px' }}>
+                    <Button
+                        variant="outlined"
+                        onClick={onResend}
+                        sx={{
+                            borderRadius: "15px",
+                            backgroundColor: '#445A68',
+                            color: '#FFFFFF',
+                            padding: "8px 16px !important",
+                            fontSize: "18px",
+                            fontWeight: "600",
+                            border: "1px solid rgba(68, 90, 104, 1)",
+                            textTransform: "capitalize",
+                        }}
+                    >
+                        Resend Otp
+                    </Button>
                     <Button
                         onClick={handleSubmit}
                         sx={{
-                            borderRadius: "10px",
+                            borderRadius: "15px",
                             border: "1px solid #A9A9A9",
                             color: "#FFFFFF !important",
                             fontSize: "18px !important",

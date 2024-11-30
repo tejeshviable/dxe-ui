@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import * as Yup from "yup";
 import { makeStyles } from '@mui/styles';
 import { useDispatch } from 'react-redux';
-import { fetchIpiFicationAuthPostSlice, fetchIpiFicationGetSlice, fetchIpiFicationPostSlice, fetchIpiFicationRespPostSlice, VerifysmsOtpSmsSlice, VerifyWhatsAppOtpSlice } from '../../redux/teamSlice/team.slice';
+import { fetchIpiFicationAuthPostSlice, fetchIpiFicationGetSlice, fetchIpiFicationPostSlice, fetchIpiFicationRespPostSlice, resendOtpSlice, VerifyOtpSlice, VerifysmsOtpSmsSlice, VerifyWhatsAppOtpSlice } from '../../redux/teamSlice/team.slice';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import IDALOGO from '../../assets/IDA_Logo.svg'
@@ -229,55 +229,74 @@ const Demopage = () => {
 
   const handleComplete = async (otp) => {
 
-    const smsPayload = {
+    const payload = {
       otp: encryption(otp),
       txnId: otpInfo?.txnId
     }
 
-    const whatsAppPayload = {
-      otp: encryption(otp),
-      mobileNumber: encryption(formik.values.whatsAppMobileNumber),
-      txnId: otpInfo?.txnId
+    // const whatsAppPayload = {
+    //   otp: encryption(otp),
+    //   mobileNumber: encryption(formik.values.whatsAppMobileNumber),
+    //   txnId: otpInfo?.txnId
+    // }
+
+    // if (otpInfo?.channel === 'sms') {
+
+    //   const smsResult = await dispatch(VerifysmsOtpSmsSlice(smsPayload)).unwrap();
+
+    //   if (smsResult) {
+    //     toast.success("Verified");
+    //   }
+    //   else {
+    //     toast.error("Not verified. We will send sms when ready");
+    //   }
+    // }
+    // else if (otpInfo?.channel === 'whatsApp') {
+
+    //   const whatsAppResult = await dispatch(VerifyWhatsAppOtpSlice(whatsAppPayload)).unwrap();
+
+    //   if (whatsAppResult) {
+    //     // toast.success("Verified");
+
+    //     if (whatsAppResult.status === 'VERIFICATION_PENDING') {
+    //       toast.error(whatsAppResult.message);
+    //     }
+    //     else if (whatsAppResult.status === 'false') {
+    //       toast.error(whatsAppResult.message);
+    //       setOtpPopup(false);
+    //       formik.resetForm();
+    //     }
+    //     else if (whatsAppResult.status === 'true') {
+    //       toast.success(whatsAppResult.message);
+    //       setOtpPopup(false);
+    //       formik.resetForm();
+    //     }
+
+    //   }
+    //   else {
+    //     toast.error("Not verified. We will send sms when ready");
+    //   }
+    // }
+
+    const result = await dispatch(VerifyOtpSlice(payload)).unwrap();
+
+    if (result) {
+      toast.success("Verified");
+    }
+    else {
+      toast.error("Not verified. We will send sms when ready");
     }
 
-    if (otpInfo?.channel === 'sms') {
-
-      const smsResult = await dispatch(VerifysmsOtpSmsSlice(smsPayload)).unwrap();
-
-      if (smsResult) {
-        toast.success("Verified");
-      }
-      else {
-        toast.error("Not verified. We will send sms when ready");
-      }
-    }
-    else if (otpInfo?.channel === 'whatsApp') {
-
-      const whatsAppResult = await dispatch(VerifyWhatsAppOtpSlice(whatsAppPayload)).unwrap();
-
-      if (whatsAppResult) {
-        // toast.success("Verified");
-
-        if (whatsAppResult.status === 'VERIFICATION_PENDING') {
-          toast.error(whatsAppResult.message);
-        }
-        else if (whatsAppResult.status === 'false') {
-          toast.error(whatsAppResult.message);
-          setOtpPopup(false);
-          formik.resetForm();
-        }
-        else if (whatsAppResult.status === 'true') {
-          toast.success(whatsAppResult.message);
-          setOtpPopup(false);
-          formik.resetForm();
-        }
-
-      }
-      else {
-        toast.error("Not verified. We will send sms when ready");
-      }
-    }
   };
+
+  const handleResendOtp = async () => {
+
+    const payload = {
+      txnId: otpInfo?.txnId
+    }
+
+    const result = await dispatch(resendOtpSlice(payload));
+  }
 
   const formik = useFormik({
     initialValues: initialValues,
@@ -288,6 +307,7 @@ const Demopage = () => {
   console.log("formik", formik)
 
   console.log("otpinfo---", otpInfo);
+
 
   return (
     <Box>
