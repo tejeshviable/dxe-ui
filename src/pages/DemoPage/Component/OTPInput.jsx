@@ -48,21 +48,22 @@ const OTPInput = ({ length = 6, onComplete, otpPopup, setOtpPopup, otpInfo, onRe
 
         <>
             <Card
-                sx={{
-                    maxWidth: 500,
-                    p: 2,
-                    borderRadius: "20px",
-                    boxShadow: "0px 4px 16.5px -6px rgba(0, 0, 0, 0.25)",
-                }}
+                // sx={{
+                //     maxWidth: 500,
+                //     p: 2,
+                //     borderRadius: "20px",
+                //     boxShadow: "0px 4px 16.5px -6px rgba(0, 0, 0, 0.25)",
+                // }}
+                sx={{ mt: 5, p: 3, backgroundColor: 'transparent', boxShadow: 'none', maxWidth: '800px', margin: '80px auto' }}
             >
                 <CardContent>
-                    <Typography align="center" gutterBottom className={classes.TypoHead}>
+                    <Typography align="center" gutterBottom className={classes.TypoHead} sx={{ fontWeight: '800'}}>
                         Enter OTP
                     </Typography>
                     <Typography align="center" gutterBottom className={classes.Typo}>
                         {otpInfo?.message}
                     </Typography>
-                    <Box display="flex" justifyContent="center" gap={1} mt={2}>
+                    <Box display="flex" justifyContent="center" gap={1}>
                         {otp.map((digit, index) => (
                             <TextField
                                 key={index}
@@ -73,7 +74,7 @@ const OTPInput = ({ length = 6, onComplete, otpPopup, setOtpPopup, otpInfo, onRe
                                 variant="outlined"
                                 inputProps={{
                                     maxLength: 1,
-                                    style: { textAlign: "center", fontSize: "1.5rem", width: "2rem" },
+                                    style: { borderRadius: '0', textAlign: "center", fontSize: "1.5rem", width: "2rem", height: '0.4375em', fontSize: '14px !important' },
                                 }}
                             />
                         ))}
@@ -83,7 +84,7 @@ const OTPInput = ({ length = 6, onComplete, otpPopup, setOtpPopup, otpInfo, onRe
                             {error}
                         </Alert>
                     )}
-                    <Box sx={{ display: "flex", justifyContent: "center", marginTop: "24px", gap: '12px' }}>
+                    <Box sx={{ display: "flex", justifyContent: "center", marginTop: "12px", gap: '12px' }}>
                         {/* <Button
                         variant="outlined"
                         onClick={onResend}
@@ -103,13 +104,14 @@ const OTPInput = ({ length = 6, onComplete, otpPopup, setOtpPopup, otpInfo, onRe
                         <Button
                             onClick={handleSubmit}
                             sx={{
-                                borderRadius: "12px",
-                                color: "#FFFFFF !important",
-                                fontSize: "18px !important",
-                                background: "linear-gradient(180deg, #13BECF 0%, #455869 100%)",
-                                padding: "8px 16px !important",
-                                textTransform: "capitalize",
-                            }}
+                                borderRadius: '5px',
+                                color: '#FFFFFF !important',
+                                fontSize: '12px !important',
+                                background: 'linear-gradient(180deg, #13BECF 0%, #455869 100%)',
+                                padding: '8px 16px !important',
+                                textTransform: 'capitalize',
+                                width: '100%'
+                              }}
                         >
                             Submit
                         </Button>

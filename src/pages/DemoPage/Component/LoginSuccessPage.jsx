@@ -17,14 +17,15 @@ const LoginSuccessPage = () => {
     return (
         <Container
             maxWidth="sm"
-            sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100vh",
-            }}
+            // sx={{
+            //     // display: "flex",
+            //     // justifyContent: "center",
+            //     // alignItems: "center",
+            //     // height: "100vh",
+            // }}
+            sx={{ mt: 5, p: 3, backgroundColor: 'transparent', boxShadow: 'none', maxWidth: '800px', margin: '80px auto' }}
         >
-            <Card sx={{ width: "100%", borderRadius: '15px', boxShadow: '0px 4px 16.5px -6px rgba(0, 0, 0, 0.25)', padding:3 }}>
+            <Card sx={{ mt: 5, p: 3, backgroundColor: 'transparent', boxShadow: 'none', borderRadius: '15px', maxWidth: '800px', margin: '50px auto' }}>
                 <CardContent>
                     <Box
                         display="flex"
@@ -33,11 +34,11 @@ const LoginSuccessPage = () => {
                         justifyContent="center"
                         textAlign="center"
                     >
-                        <CheckCircleIcon color="success" sx={{ fontSize: 80, mb: 2 }} />
-                        <Typography variant="h4" gutterBottom>
+                        <CheckCircleIcon color="success" sx={{ fontSize: 40, mb: 2 }} />
+                        <Typography variant="h7" gutterBottom>
                             Login Successful!
                         </Typography>
-                        <Typography variant="body1" color="textSecondary" sx={{ mb: 4 }}>
+                        <Typography variant="body1" color="textSecondary" sx={{ mb: 4, fontSize: '14px' }}>
                             Welcome back! You have successfully logged in.
                         </Typography>
                         {/* <Button
@@ -50,14 +51,15 @@ const LoginSuccessPage = () => {
                             Go to Dashboard
                         </Button> */}
                         <Button
-                            sx={{
-                                borderRadius: '10px',
-                                color: '#FFFFFF !important',
-                                fontSize: '18px !important',
-                                background: 'linear-gradient(180deg, #13BECF 0%, #455869 100%)',
-                                padding: '8px 16px !important',
-                                textTransform: 'capitalize'
-                            }}
+                        sx={{
+                            borderRadius: '5px',
+                            color: '#FFFFFF !important',
+                            fontSize: '12px !important',
+                            background: 'linear-gradient(180deg, #13BECF 0%, #455869 100%)',
+                            padding: '8px 16px !important',
+                            textTransform: 'capitalize',
+                            width: '100%'
+                          }}
                             onClick={handleLogout}
                         >
                             Logout

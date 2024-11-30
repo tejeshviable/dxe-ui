@@ -19,10 +19,11 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     "& .MuiOutlinedInput-root": {
       backgroundColor: "#fff",
-      borderRadius: "10px",
+      borderRadius: "0px",
       border: "0px solid #C5C5C5",
-      height: "60px", // Updated height to 60px
+      height: "40px", // Updated height to 60px
       background: "#FFF",
+      fontSize: '13px'
     },
     "& .MuiInputBase-input::placeholder": {
       backgroundColor: "#FFF", // Ensuring placeholder background is white
@@ -36,8 +37,8 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     "& .MuiOutlinedInput-root": {
       backgroundColor: "#fff",
-      borderRadius: "10px",
-      height: "60px", // Updated height to 60px
+      borderRadius: "0px",
+      height: "40px", // Updated height to 60px
       background: "#FFF",
     },
     "& .MuiInputBase-input::placeholder": {
@@ -55,13 +56,13 @@ const useStyles = makeStyles((theme) => ({
     color: "#455967",
     fontWeight: 500,
     marginBottom: "2px",
-    fontSize: "18px !important",
+    fontSize: "14px !important",
   },
   Typo: {
     color: "#455967",
     fontWeight: 500,
     marginBottom: "2px",
-    fontSize: "16px !important",
+    fontSize: "13px !important",
   },
 
   fetchButton: {
@@ -362,18 +363,19 @@ const Demopage = () => {
         !otpPopup ?
           <>
             <form onSubmit={formik.handleSubmit}>
-              <Card sx={{ mt: 5, p: 3, borderRadius: '15px', boxShadow: '0px 4px 16.5px -6px rgba(0, 0, 0, 0.25)', maxWidth: '800px', margin: '100px auto' }}>
+              <Card sx={{ mt: 5, p: 3, backgroundColor: 'transparent', boxShadow: 'none', maxWidth: '800px', margin: '180px auto' }}>
 
-                <Typography sx={{ fontSize: '28px', fontWeight: '500' }}>Welcome back! Glad to see you, Again!</Typography>
+                <Typography sx={{ fontSize: '14px', fontWeight: '600', textAlign: 'center' }}>WHAT'S YOUR MOBILE NUMBER</Typography>
 
-                <Grid container sx={{ pt: 2 }} spacing={2}>
+                <Grid container sx={{ pt: 1 }} spacing={2}>
                   <Grid size={{ xs: 12 }}>
-                    <Typography className={classes.label}>Mobile Number{" "}<span style={{ color: '#FF0000' }}>*</span></Typography>
+                    {/*<Typography className={classes.label}>Mobile Number{" "}<span style={{ color: '#FF0000' }}>*</span></Typography>*/}
 
                     <TextField
                       name="mobileNumber"
-                      placeholder='Enter Mobile Number'
+                      placeholder='999123456789'
                       value={formik.values.mobileNumber}
+                      fontSize='14px'
                       // onChange={formik.handleChange}
                       onChange={(event) => {
                         formik.handleChange(event);
@@ -447,27 +449,28 @@ const Demopage = () => {
                     </Grid>
                   )*/}
                 </Grid>
-                <Box sx={{ display: 'flex', justifyContent: "center", mt: '40px', alignItems: 'end' }}>
+                <Box sx={{ display: 'flex', justifyContent: "center", mt: '15px', alignItems: 'end' }}>
                   <Button
                     sx={{
-                      borderRadius: '10px',
+                      borderRadius: '5px',
                       color: '#FFFFFF !important',
-                      fontSize: '18px !important',
+                      fontSize: '12px !important',
                       background: 'linear-gradient(180deg, #13BECF 0%, #455869 100%)',
                       padding: '8px 16px !important',
-                      textTransform: 'capitalize'
+                      textTransform: 'capitalize',
+                      width: '100%'
                     }}
                     type='submit'
                   >
-                    Authenticate
+                    VERIFY
                   </Button>
                 </Box>
 
                 <Box sx={{ display: 'flex', justifyContent: "center", mt: '5px', alignItems: 'center' }}>
-                  <Typography sx={{ color: '#455967', }}>Powered by{' '}</Typography>
+                  <Typography sx={{ color: '#455967', fontSize: '10px !important', }}>Powered by{' '}{' '}</Typography>
 
                   <span>
-                    <img src={IDALOGO} width={'30px'}></img>
+                    <img src={IDALOGO} width={'15px'}></img>
                   </span>
                 </Box>
               </Card>
