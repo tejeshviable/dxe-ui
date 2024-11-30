@@ -79,11 +79,12 @@ const channelFallbackList = [
   {
     label: 'SMS',
     value: 'sms',
-  },
-  {
-    label: 'WhatsApp',
-    value: 'whatsApp',
   }
+  // ,
+  // {
+  //   label: 'WhatsApp',
+  //   value: 'whatsApp',
+  // }
 ]
 
 const Demopage = () => {
@@ -109,23 +110,24 @@ const Demopage = () => {
   const validationSchema = Yup.object().shape({
     mobileNumber: Yup.string().required('Mobile number is required'),
     fallbackChannel: Yup.array()
-      .of(Yup.string().oneOf(['sms', 'whatsApp'])),
-    smsMobileNumber: Yup.string().test(
-      'smsMobileNumber',
-      'SMS Mobile Number is required',
-      function (value) {
-        const { fallbackChannel } = this.parent;
-        return fallbackChannel?.includes('sms') ? !!value : true;
-      }
-    ),
-    whatsAppMobileNumber: Yup.string().test(
-      'whatsAppMobileNumber',
-      'WhatsApp Mobile Number is required',
-      function (value) {
-        const { fallbackChannel } = this.parent;
-        return fallbackChannel?.includes('whatsApp') ? !!value : true;
-      }
-    ),
+      .of(Yup.string().oneOf(['sms', 'whatsApp']))
+    // ,
+    // smsMobileNumber: Yup.string().test(
+    //   'smsMobileNumber',
+    //   'SMS Mobile Number is required',
+    //   function (value) {
+    //     const { fallbackChannel } = this.parent;
+    //     return fallbackChannel?.includes('sms') ? !!value : true;
+    //   }
+    // ),
+    // whatsAppMobileNumber: Yup.string().test(
+    //   'whatsAppMobileNumber',
+    //   'WhatsApp Mobile Number is required',
+    //   function (value) {
+    //     const { fallbackChannel } = this.parent;
+    //     return fallbackChannel?.includes('whatsApp') ? !!value : true;
+    //   }
+    // ),
   });
 
 
@@ -150,12 +152,13 @@ const Demopage = () => {
       mobileNumberTo: encryption(values.mobileNumber)
     },]
 
-    if (values.fallbackChannel.includes("sms")) {
+    // if (values.fallbackChannel.includes("sms")) {
       workflow.push({
         channel: "sms",
-        mobileNumberTo: encryption(values.smsMobileNumber)
+        // mobileNumberTo: encryption(values.smsMobileNumber)
+        mobileNumberTo: encryption(values.mobileNumber)
       })
-    }
+    // }
 
     if (values.fallbackChannel.includes("whatsApp")) {
       // workflow.push({
@@ -380,7 +383,7 @@ const Demopage = () => {
                       helperText={formik.touched.mobileNumber && formik.errors.mobileNumber}
                     />
                   </Grid>
-                  <Grid size={{ xs: 12 }}>
+                  {/*<Grid size={{ xs: 12 }}>
                     <Typography className={classes.label}>Fallback</Typography>
                     <Autocomplete
                       name="fallbackChannel"
@@ -413,8 +416,8 @@ const Demopage = () => {
                         />
                       )}
                     />
-                  </Grid>
-                  {formik.values.fallbackChannel.includes('sms') && (
+                  </Grid>*/}
+                  {/*formik.values.fallbackChannel.includes('sms') && (
                     <Grid size={{ xs: 12 }}>
                       <Typography className={classes.label}>SMS Mobile Number<span style={{ color: '#FF0000' }}>*</span></Typography>
                       <TextField
@@ -427,8 +430,8 @@ const Demopage = () => {
                         helperText={formik.touched.smsMobileNumber && formik.errors.smsMobileNumber}
                       />
                     </Grid>
-                  )}
-                  {formik.values.fallbackChannel.includes('whatsApp') && (
+                  )*/}
+                  {/*formik.values.fallbackChannel.includes('whatsApp') && (
                     <Grid size={{ xs: 12 }}>
                       <Typography className={classes.label}>WhatsApp Mobile Number<span style={{ color: '#FF0000' }}>*</span></Typography>
                       <TextField
@@ -441,7 +444,7 @@ const Demopage = () => {
                         helperText={formik.touched.whatsAppMobileNumber && formik.errors.whatsAppMobileNumber}
                       />
                     </Grid>
-                  )}
+                  )*/}
                 </Grid>
                 <Box sx={{ display: 'flex', justifyContent: "center", mt: '40px', alignItems: 'end' }}>
                   <Button
