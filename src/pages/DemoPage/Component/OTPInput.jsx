@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
-import { Box, Button, Card, CardContent, TextField, Typography, Alert } from "@mui/material";
+import { Box, Button, Card, CardContent, TextField, Typography, Alert, Container } from "@mui/material";
 
-const OTPInput = ({ length = 6, onComplete, otpPopup, setOtpPopup, otpInfo, onResend }) => {
+const OTPInput = ({ length = 6, onComplete, otpPopup, setOtpPopup, otpInfo, onResend, classes }) => {
     const [otp, setOtp] = useState(new Array(length).fill(""));
     const [error, setError] = useState(""); // To store error messages
     const inputRefs = useRef([]);
@@ -45,44 +45,46 @@ const OTPInput = ({ length = 6, onComplete, otpPopup, setOtpPopup, otpInfo, onRe
 
 
     return (
-        <Card
-            sx={{
-                maxWidth: 500,
-                p: 2,
-                borderRadius: "20px",
-                boxShadow: "0px 4px 16.5px -6px rgba(0, 0, 0, 0.25)",
-            }}
-        >
-            <CardContent>
-                <Typography align="center" gutterBottom>
-                    Enter OTP
-                </Typography>
-                <Typography align="center" gutterBottom>
-                    {otpInfo?.message}
-                </Typography>
-                <Box display="flex" justifyContent="center" gap={2}>
-                    {otp.map((digit, index) => (
-                        <TextField
-                            key={index}
-                            value={digit}
-                            onChange={(e) => handleChange(e.target.value, index)}
-                            onKeyDown={(e) => handleKeyDown(e, index)}
-                            inputRef={(ref) => (inputRefs.current[index] = ref)}
-                            variant="outlined"
-                            inputProps={{
-                                maxLength: 1,
-                                style: { textAlign: "center", fontSize: "1.5rem", width: "2rem" },
-                            }}
-                        />
-                    ))}
-                </Box>
-                {error && (
-                    <Alert variant="outlined" severity="error" sx={{ mt: 2 }}>
-                        {error}
-                    </Alert>
-                )}
-                <Box sx={{ display: "flex", justifyContent: "center", marginTop: "24px", gap: '12px' }}>
-                    {/* <Button
+
+        <>
+            <Card
+                sx={{
+                    maxWidth: 500,
+                    p: 2,
+                    borderRadius: "20px",
+                    boxShadow: "0px 4px 16.5px -6px rgba(0, 0, 0, 0.25)",
+                }}
+            >
+                <CardContent>
+                    <Typography align="center" gutterBottom className={classes.TypoHead}>
+                        Enter OTP
+                    </Typography>
+                    <Typography align="center" gutterBottom className={classes.Typo}>
+                        {otpInfo?.message}
+                    </Typography>
+                    <Box display="flex" justifyContent="center" gap={1} mt={2}>
+                        {otp.map((digit, index) => (
+                            <TextField
+                                key={index}
+                                value={digit}
+                                onChange={(e) => handleChange(e.target.value, index)}
+                                onKeyDown={(e) => handleKeyDown(e, index)}
+                                inputRef={(ref) => (inputRefs.current[index] = ref)}
+                                variant="outlined"
+                                inputProps={{
+                                    maxLength: 1,
+                                    style: { textAlign: "center", fontSize: "1.5rem", width: "2rem" },
+                                }}
+                            />
+                        ))}
+                    </Box>
+                    {error && (
+                        <Alert variant="outlined" severity="error" sx={{ mt: 2 }}>
+                            {error}
+                        </Alert>
+                    )}
+                    <Box sx={{ display: "flex", justifyContent: "center", marginTop: "24px", gap: '12px' }}>
+                        {/* <Button
                         variant="outlined"
                         onClick={onResend}
                         sx={{
@@ -98,22 +100,23 @@ const OTPInput = ({ length = 6, onComplete, otpPopup, setOtpPopup, otpInfo, onRe
                     >
                         Resend Otp
                     </Button> */}
-                    <Button
-                        onClick={handleSubmit}
-                        sx={{
-                            borderRadius: "12px",
-                            color: "#FFFFFF !important",
-                            fontSize: "18px !important",
-                            background: "linear-gradient(180deg, #13BECF 0%, #455869 100%)",
-                            padding: "8px 16px !important",
-                            textTransform: "capitalize",
-                        }}
-                    >
-                        Submit
-                    </Button>
-                </Box>
-            </CardContent>
-        </Card>
+                        <Button
+                            onClick={handleSubmit}
+                            sx={{
+                                borderRadius: "12px",
+                                color: "#FFFFFF !important",
+                                fontSize: "18px !important",
+                                background: "linear-gradient(180deg, #13BECF 0%, #455869 100%)",
+                                padding: "8px 16px !important",
+                                textTransform: "capitalize",
+                            }}
+                        >
+                            Submit
+                        </Button>
+                    </Box>
+                </CardContent>
+            </Card>
+        </>
     );
 };
 

@@ -12,6 +12,7 @@ import IDALOGO from '../../assets/IDA_Logo.svg'
 import RedirectIframe from './RedirectIframe';
 import OTPInput from './Component/OTPInput';
 import { encryption } from '../../helper/encryption';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   textField: {
@@ -50,6 +51,12 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "18px !important",
   },
 
+  TypoHead: {
+    color: "#455967",
+    fontWeight: 500,
+    marginBottom: "2px",
+    fontSize: "18px !important",
+  },
   Typo: {
     color: "#455967",
     fontWeight: 500,
@@ -82,12 +89,13 @@ const channelFallbackList = [
 const Demopage = () => {
 
   const classes = useStyles();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [mobile, setMobile] = useState("");
   const [txnId, setTxnId] = useState("");
   const [iframeUrl, setIframeUrl] = useState(null);
   const [AttriuteInputValue, setAttriuteInputValue] = useState('');
-  const [otpPopup, setOtpPopup] = useState(true);
+  const [otpPopup, setOtpPopup] = useState(false);
   const [otpInfo, setotpInfo] = useState('');
 
   const [loading, setLoading] = useState(false);
@@ -280,7 +288,22 @@ const Demopage = () => {
     const result = await dispatch(VerifyOtpSlice(payload)).unwrap();
 
     if (result) {
-      toast.success("Verified");
+      // toast.success("Verified");
+
+      if (result.status === 'OTP_SENT') {
+        toast.error(result.message);
+      }
+      else if (result.status === 'false') {
+        toast.error(result.message);
+        setOtpPopup(false);
+        formik.resetForm();
+      }
+      else if (result.status === 'true') {
+        toast.success(result.message);
+        // setOtpPopup(false);
+        // formik.resetForm();
+        navigate('/login-success-page')
+      }
     }
     else {
       toast.error("Not verified. We will send sms when ready");
@@ -338,11 +361,11 @@ const Demopage = () => {
             <form onSubmit={formik.handleSubmit}>
               <Card sx={{ mt: 5, p: 3, borderRadius: '15px', boxShadow: '0px 4px 16.5px -6px rgba(0, 0, 0, 0.25)', maxWidth: '800px', margin: '100px auto' }}>
 
-                <Typography sx={{fontSize:'28px', fontWeight:'500'}}>Welcome back! Glad to see you, Again!</Typography>
+                <Typography sx={{ fontSize: '28px', fontWeight: '500' }}>Welcome back! Glad to see you, Again!</Typography>
 
                 <Grid container sx={{ pt: 2 }} spacing={2}>
                   <Grid size={{ xs: 12 }}>
-                    <Typography className={classes.label}>Phone Number</Typography>
+                    <Typography className={classes.label}>Mobile Number{" "}<span style={{ color: '#FF0000' }}>*</span></Typography>
 
                     <TextField
                       name="mobileNumber"
@@ -394,7 +417,7 @@ const Demopage = () => {
                   </Grid>
                   {formik.values.fallbackChannel.includes('sms') && (
                     <Grid size={{ xs: 12 }}>
-                      <Typography className={classes.label}>SMS Mobile Number</Typography>
+                      <Typography className={classes.label}>SMS Mobile Number<span style={{ color: '#FF0000' }}>*</span></Typography>
                       <TextField
                         name="smsMobileNumber"
                         placeholder="Enter SMS Mobile Number"
@@ -408,7 +431,7 @@ const Demopage = () => {
                   )}
                   {formik.values.fallbackChannel.includes('whatsApp') && (
                     <Grid size={{ xs: 12 }}>
-                      <Typography className={classes.label}>WhatsApp Mobile Number</Typography>
+                      <Typography className={classes.label}>WhatsApp Mobile Number<span style={{ color: '#FF0000' }}>*</span></Typography>
                       <TextField
                         name="whatsAppMobileNumber"
                         placeholder="Enter WhatsApp Mobile Number"
@@ -421,7 +444,7 @@ const Demopage = () => {
                     </Grid>
                   )}
                 </Grid>
-                <Box sx={{ display: 'flex', justifyContent: "center", mt: '40px', alignItems:'end' }}>
+                <Box sx={{ display: 'flex', justifyContent: "center", mt: '40px', alignItems: 'end' }}>
                   <Button
                     sx={{
                       borderRadius: '10px',
@@ -448,8 +471,15 @@ const Demopage = () => {
             </form>
           </> :
           <>
-            <Box sx={{display:'flex', justifyContent:'center', height:'100vh', alignItems:'center'}}>
-              <OTPInput length={6} onComplete={handleComplete} otpPopup={otpPopup} setOtpPopup={setOtpPopup} otpInfo={otpInfo} />
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100vh",
+              }}
+            >
+              <OTPInput length={6} onComplete={handleComplete} otpPopup={otpPopup} setOtpPopup={setOtpPopup} otpInfo={otpInfo} classes={classes} />
             </Box>
           </>
       }
