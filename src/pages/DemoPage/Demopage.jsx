@@ -158,10 +158,10 @@ const Demopage = () => {
     }
 
     if (values.fallbackChannel.includes("whatsApp")) {
-      workflow.push({
-        channel: 'whatsApp',
-        mobileNumberTo: encryption(values.whatsAppMobileNumber)
-      })
+      // workflow.push({
+      //   channel: 'whatsApp',
+      //   mobileNumberTo: encryption(values.whatsAppMobileNumber)
+      // })
     }
 
     const payload = {
@@ -240,7 +240,6 @@ const Demopage = () => {
       otp: encryption(otp),
       txnId: otpInfo?.txnId
     }
-
     // const whatsAppPayload = {
     //   otp: encryption(otp),
     //   mobileNumber: encryption(formik.values.whatsAppMobileNumber),
