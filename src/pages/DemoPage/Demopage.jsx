@@ -229,7 +229,8 @@ const Demopage = () => {
       }
 
       if (successResult?.status == "true") {
-        toast.success("Verified");
+        toast.success("Authentication successful");
+        navigate('/login-success-page')
       } else {
         // toast.error(successResult?.errorMsg ? successResult?.errorMsg : "Not verified");
         toast.error("Not verified. We will send sms when ready");
