@@ -79,12 +79,12 @@ const OTPInput = ({ length = 6, onComplete, otpPopup, setOtpPopup, otpInfo, onRe
                     ))}
                 </Box>
                 {error && (
-                    <Alert severity="error" sx={{ mt: 2 }}>
+                    <Alert variant="outlined" severity="error" sx={{ mt: 2 }}>
                         {error}
                     </Alert>
                 )}
                 <Box sx={{ display: "flex", justifyContent: "center", marginTop: "24px", gap: '12px' }}>
-                    <Button
+                    {/* <Button
                         variant="outlined"
                         onClick={onResend}
                         sx={{
@@ -99,7 +99,7 @@ const OTPInput = ({ length = 6, onComplete, otpPopup, setOtpPopup, otpInfo, onRe
                         }}
                     >
                         Resend Otp
-                    </Button>
+                    </Button> */}
                     <Button
                         onClick={handleSubmit}
                         sx={{

@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   label: {
-    color: "#BEBEBE",
+    color: "#7C7C7C",
     fontWeight: 500,
     marginBottom: "2px",
     fontSize: "18px !important",
@@ -59,7 +59,6 @@ const useStyles = makeStyles((theme) => ({
 
   fetchButton: {
     borderRadius: '10px',
-    border: '1px solid #A9A9A9',
     color: '#FFFFFF !important',
     fontSize: '18px !important',
     background: 'linear-gradient(180deg, #13BECF 0%, #455869 100%)',
@@ -198,7 +197,7 @@ const Demopage = () => {
       setTimeout(() => {
         handleSuccess(state);
       }, 100);
-    } else if (successResult.status === 'VERIFICATION_PENDING') {
+    } else if (successResult.status === 'OTP_SENT') {
       if (successResult.channel === 'sms') {
         setLoading(false);
         // toast.success("Call sms verify otp");
@@ -337,9 +336,12 @@ const Demopage = () => {
         !otpPopup ?
           <>
             <form onSubmit={formik.handleSubmit}>
-              <Card sx={{ mt: 5, p: 3, borderRadius: '15px', boxShadow: '0px 4px 16.5px -6px rgba(0, 0, 0, 0.25)' }}>
-                <Grid container item size={{ md: 12 }} sx={{ pt: 2 }} spacing={2}>
-                  <Grid size={{ md: 4 }}>
+              <Card sx={{ mt: 5, p: 3, borderRadius: '15px', boxShadow: '0px 4px 16.5px -6px rgba(0, 0, 0, 0.25)', maxWidth: '800px', margin: '100px auto' }}>
+
+                <Typography sx={{fontSize:'28px', fontWeight:'500'}}>Welcome back! Glad to see you, Again!</Typography>
+
+                <Grid container sx={{ pt: 2 }} spacing={2}>
+                  <Grid size={{ xs: 12 }}>
                     <Typography className={classes.label}>Phone Number</Typography>
 
                     <TextField
@@ -356,7 +358,7 @@ const Demopage = () => {
                       helperText={formik.touched.mobileNumber && formik.errors.mobileNumber}
                     />
                   </Grid>
-                  <Grid size={{ md: 4 }}>
+                  <Grid size={{ xs: 12 }}>
                     <Typography className={classes.label}>Fallback</Typography>
                     <Autocomplete
                       name="fallbackChannel"
@@ -391,7 +393,7 @@ const Demopage = () => {
                     />
                   </Grid>
                   {formik.values.fallbackChannel.includes('sms') && (
-                    <Grid size={{ md: 4 }}>
+                    <Grid size={{ xs: 12 }}>
                       <Typography className={classes.label}>SMS Mobile Number</Typography>
                       <TextField
                         name="smsMobileNumber"
@@ -405,7 +407,7 @@ const Demopage = () => {
                     </Grid>
                   )}
                   {formik.values.fallbackChannel.includes('whatsApp') && (
-                    <Grid size={{ md: 4 }}>
+                    <Grid size={{ xs: 12 }}>
                       <Typography className={classes.label}>WhatsApp Mobile Number</Typography>
                       <TextField
                         name="whatsAppMobileNumber"
@@ -419,32 +421,30 @@ const Demopage = () => {
                     </Grid>
                   )}
                 </Grid>
+                <Box sx={{ display: 'flex', justifyContent: "center", mt: '40px', alignItems:'end' }}>
+                  <Button
+                    sx={{
+                      borderRadius: '10px',
+                      color: '#FFFFFF !important',
+                      fontSize: '18px !important',
+                      background: 'linear-gradient(180deg, #13BECF 0%, #455869 100%)',
+                      padding: '8px 16px !important',
+                      textTransform: 'capitalize'
+                    }}
+                    type='submit'
+                  >
+                    Authenticate
+                  </Button>
+                </Box>
+
+                <Box sx={{ display: 'flex', justifyContent: "center", mt: '5px', alignItems: 'center' }}>
+                  <Typography sx={{ color: '#455967', }}>Powered by{' '}</Typography>
+
+                  <span>
+                    <img src={IDALOGO} width={'30px'}></img>
+                  </span>
+                </Box>
               </Card>
-
-              <Box sx={{ display: 'flex', justifyContent: "center", mt: '16px' }}>
-                <Button
-                  sx={{
-                    borderRadius: '10px',
-                    border: '1px solid #A9A9A9',
-                    color: '#FFFFFF !important',
-                    fontSize: '18px !important',
-                    background: 'linear-gradient(180deg, #13BECF 0%, #455869 100%)',
-                    padding: '8px 16px !important',
-                    textTransform: 'capitalize'
-                  }}
-                  type='submit'
-                >
-                  Authenticate
-                </Button>
-              </Box>
-
-              <Box sx={{ display: 'flex', justifyContent: "center", mt: '5px', alignItems: 'center' }}>
-                <Typography sx={{ color: '#455967', }}>Powered by{' '}</Typography>
-
-                <span>
-                  <img src={IDALOGO} width={'30px'}></img>
-                </span>
-              </Box>
             </form>
           </> :
           <>
