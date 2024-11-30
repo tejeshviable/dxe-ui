@@ -48,10 +48,8 @@ const OTPInput = ({ length = 6, onComplete, otpPopup, setOtpPopup, otpInfo, onRe
         <Card
             sx={{
                 maxWidth: 500,
-                mx: "auto",
-                mt: 5,
                 p: 2,
-                borderRadius: "15px",
+                borderRadius: "20px",
                 boxShadow: "0px 4px 16.5px -6px rgba(0, 0, 0, 0.25)",
             }}
         >
@@ -103,8 +101,7 @@ const OTPInput = ({ length = 6, onComplete, otpPopup, setOtpPopup, otpInfo, onRe
                     <Button
                         onClick={handleSubmit}
                         sx={{
-                            borderRadius: "15px",
-                            border: "1px solid #A9A9A9",
+                            borderRadius: "12px",
                             color: "#FFFFFF !important",
                             fontSize: "18px !important",
                             background: "linear-gradient(180deg, #13BECF 0%, #455869 100%)",

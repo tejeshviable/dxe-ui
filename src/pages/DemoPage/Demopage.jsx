@@ -87,7 +87,7 @@ const Demopage = () => {
   const [txnId, setTxnId] = useState("");
   const [iframeUrl, setIframeUrl] = useState(null);
   const [AttriuteInputValue, setAttriuteInputValue] = useState('');
-  const [otpPopup, setOtpPopup] = useState(false);
+  const [otpPopup, setOtpPopup] = useState(true);
   const [otpInfo, setotpInfo] = useState('');
 
   const [loading, setLoading] = useState(false);
@@ -448,7 +448,7 @@ const Demopage = () => {
             </form>
           </> :
           <>
-            <Box sx={{ margin: 'auto' }}>
+            <Box sx={{display:'flex', justifyContent:'center', height:'100vh', alignItems:'center'}}>
               <OTPInput length={6} onComplete={handleComplete} otpPopup={otpPopup} setOtpPopup={setOtpPopup} otpInfo={otpInfo} />
             </Box>
           </>
