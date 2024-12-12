@@ -65,6 +65,7 @@ import DataRequestTest from "./pages/DataRequest/Components/DataRequestTest";
 import ForgotPassword from "./pages/forgotPassword";
 import Demopage from "./pages/DemoPage/Demopage";
 import LoginSuccessPage from "./pages/DemoPage/Component/LoginSuccessPage";
+import IpificationLogin from "./pages/DemoPage/Component/IpificationLogin";
 
 // Create a function to check if the user is authenticated
 const isAuthenticated = () => {
@@ -90,6 +91,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Login />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/login-ipification" element={<IpificationLogin />} />
             <Route path="/ipification" element={<Demopage />} />
             <Route path="/login-success-page" element={<LoginSuccessPage />} />
             {/* Protect the MainLayout routes */}

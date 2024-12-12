@@ -13,6 +13,7 @@ import RedirectIframe from './RedirectIframe';
 import OTPInput from './Component/OTPInput';
 import { encryption } from '../../helper/encryption';
 import { useNavigate } from 'react-router-dom';
+import { authIpificationLoginSlice } from '../../redux/authSlice/auth.slice';
 
 const useStyles = makeStyles((theme) => ({
   textField: {
@@ -148,17 +149,23 @@ const Demopage = () => {
 
   const handleSubmit = async (values) => {
 
+
+    const payloadLogin = {
+      username: 'pDo1PV8w1IRhtUPbY5J5GoecJxtcVxNvaadWUgmWO6xqtKkM',
+      password: '3kimDwXFQMhZHclcNWvx1m2ffyvTPcwVXRj8yAM29rqIRPXFajJFC6PA9dO9Tuq1',
+    }
+
     const workflow = [{
       channel: "silent_auth",
       mobileNumberTo: encryption(values.mobileNumber)
     },]
 
     // if (values.fallbackChannel.includes("sms")) {
-      workflow.push({
-        channel: "sms",
-        // mobileNumberTo: encryption(values.smsMobileNumber)
-        mobileNumberTo: encryption(values.mobileNumber)
-      })
+    workflow.push({
+      channel: "sms",
+      // mobileNumberTo: encryption(values.smsMobileNumber)
+      mobileNumberTo: encryption(values.mobileNumber)
+    })
     // }
 
     if (values.fallbackChannel.includes("whatsApp")) {
@@ -173,26 +180,31 @@ const Demopage = () => {
       workflow
     }
 
-    const result = await dispatch(fetchIpiFicationAuthPostSlice(payload)).unwrap();
+    const loginResult = await dispatch(authIpificationLoginSlice(payloadLogin)).unwrap();
 
-    if (result) {
-      console.log("result : ", result);
-      console.log("txnId : ", result?.txnId);
-      setTxnId(result?.txnId);
-      setLoading(true);
-      var redirectUrl = result?.redirectionUrl;
-      setIframeUrl(redirectUrl);
-      // openRedirectWindow(redirectUrl);
-    }
-    else {
-      setLoading(false);
+    if (loginResult) {
 
-      if (openedWindow && !openedWindow.closed) {
-        openedWindow.close();
-        openedWindow = null;
+      const result = await dispatch(fetchIpiFicationAuthPostSlice(payload)).unwrap();
+
+      if (result) {
+        console.log("result : ", result);
+        console.log("txnId : ", result?.txnId);
+        setTxnId(result?.txnId);
+        setLoading(true);
+        var redirectUrl = result?.redirectionUrl;
+        setIframeUrl(redirectUrl);
+        // openRedirectWindow(redirectUrl);
       }
+      else {
+        setLoading(false);
 
-      console.log("error")
+        if (openedWindow && !openedWindow.closed) {
+          openedWindow.close();
+          openedWindow = null;
+        }
+
+        console.log("error")
+      }
     }
 
   }

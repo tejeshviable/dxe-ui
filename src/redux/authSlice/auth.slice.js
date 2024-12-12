@@ -4,6 +4,7 @@ import {
   authForgotThunk,
   authConfirmPasswordThunk,
   authTokenForDemoThunk,
+  authIpificationLoginThunk,
 } from "./auth.thunk";
 
 // Create async thunk for login
@@ -26,9 +27,15 @@ export const authTokenForDemoSlice = createAsyncThunk(
   authTokenForDemoThunk
 );
 
+export const authIpificationLoginSlice = createAsyncThunk(
+  "authIpificationLoginThunk",
+  authIpificationLoginThunk
+);
+
 const initialState = {
   token: null,
   data: null,
+  ipificationData:'',
   status: "idle",
   error: null,
   forgotPasswordStatus: "idle", // Track status for forgot password
@@ -96,6 +103,18 @@ const loginSlice = createSlice({
         state.authDemoToken = action.payload;
       })
       .addCase(authTokenForDemoSlice.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loading = false;
+      })
+
+      .addCase(authIpificationLoginSlice.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(authIpificationLoginSlice.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.ipificationData = action.payload;
+      })
+      .addCase(authIpificationLoginSlice.rejected, (state, action) => {
         state.error = action.error.message;
         state.loading = false;
       })

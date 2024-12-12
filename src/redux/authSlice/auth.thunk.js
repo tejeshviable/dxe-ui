@@ -88,3 +88,35 @@ export const authTokenForDemoThunk = async () => {
     console.log("error")
   }
 }
+
+
+export const authIpificationLoginThunk = async (data) => {
+
+  const credentials = btoa(`${data.username}:${data.password}`);
+  const auth = {
+    'grant_type': 'client_credentials'
+  }
+
+
+  try {
+    const response = await axios.post(
+      'https://34.8.43.232.nip.io/oauth2-cc/jwt?apikey=pDo1PV8w1IRhtUPbY5J5GoecJxtcVxNvaadWUgmWO6xqtKkM',
+      auth,
+      {
+        headers: {
+          Authorization: `Basic ${credentials}`,
+          'Content-Type': 'application/x-www-form-urlencoded', 
+        },
+      }
+    );
+
+    console.log('Login successful:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Login failed:', error.response ? error.response.data : error.message);
+    throw error;
+  }
+
+}
+
+
